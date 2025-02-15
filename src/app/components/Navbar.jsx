@@ -22,6 +22,7 @@ const Navbar = () => {
       <div className="flex gap-8 text-lg font-semibold">
         <Link href="/" className="hover:text-blue-400 transition duration-300">Home</Link>
         <Link href="/solutions" className="hover:text-blue-400 transition duration-300">AI Solutions</Link>
+        <Link href="/blogs-videos" className="hover:text-blue-400 transition duration-300">Blogs & Videos</Link>
         <Link href="/contact" className="hover:text-blue-400 transition duration-300">Contact</Link>
       </div>
 
