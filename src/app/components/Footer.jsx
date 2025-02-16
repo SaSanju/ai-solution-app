@@ -10,13 +10,13 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-start">
         {/* Logo Section */}
         <div className="flex items-center gap-3">
-          <Image 
-            src="/assets/icons/Kritrim_Solutions_logo.png" 
-            width={50} 
-            height={50} 
-            alt="Kritrim Solutions Logo" 
+          <Image
+            src="/assets/icons/Kritrim_Solutions_logo.png"
+            width={50}
+            height={50}
+            alt="Kritrim Solutions Logo"
           />
-          <span className="text-2xl font-semibold">Kritrim Solutions</span>
+          <span className="text-2xl text-right font-semibold">Kritrim Solutions</span>
         </div>
 
         {/* Pages Section */}
@@ -25,7 +25,7 @@ const Footer = () => {
           <ul className="mt-2 space-y-2 text-gray-400">
             <li><Link href="/solutions" className="hover:text-white transition">AI Solutions</Link></li>
             <li><Link href="/community" className="hover:text-white transition">Community</Link></li>
-            <li><Link href="/blog" className="hover:text-white transition">Blog & Videos</Link></li>
+            <li><Link href="/blogs-videos" className="hover:text-white transition">Blog & Videos</Link></li>
           </ul>
         </div>
 
