@@ -59,16 +59,18 @@ const Solutions = () => {
     }, []);
 
     return (
-        <section className="relative min-h-screen bg-gradient-to-b from-white to-[#ebf5ff] py-24">
+        <section className="relative min-h-screen bg-gradient-to-b from-white to-[#ebf5ff] py-24 px-4">
             {/* Title */}
             <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold text-gray-800">Integrated AI-Driven Workflows in 4 Simple Steps</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+                    Integrated AI-Driven Workflows in 4 Simple Steps
+                </h2>
             </div>
 
             {/* Timeline & Steps Container */}
             <div className="relative flex flex-col items-center max-w-6xl mx-auto">
                 {/* Vertical Timeline */}
-                <div className="absolute left-1/2 -translate-x-1/2 w-1 bg-gray-300 h-full">
+                <div className="absolute left-1/2 -translate-x-1/2 w-1 bg-gray-300 h-full hidden md:block">
                     {/* Animated Fill */}
                     <motion.div
                         className="w-1 bg-gradient-to-b from-blue-600 to-blue-300 absolute"
@@ -91,22 +93,32 @@ const Solutions = () => {
 
                 {/* Steps */}
                 {steps.map((step, index) => (
-                    <div key={index} id={step.id} className="step-section flex flex-col md:flex-row items-center justify-between w-full px-6 py-32">
+                    <div
+                        key={index}
+                        id={step.id}
+                        className="step-section flex flex-col md:flex-row items-center justify-between w-full px-6 py-16 md:py-32 gap-6"
+                    >
                         {index % 2 === 0 ? (
                             <>
-                                <div className="md:w-5/12 flex justify-end pr-8">{step.icon}</div>
-                                <div className="md:w-5/12 text-left">
+                                {/* Icon Section */}
+                                <div className="w-full md:w-5/12 flex justify-center md:justify-end">{step.icon}</div>
+
+                                {/* Text Section */}
+                                <div className="w-full md:w-5/12 text-center md:text-left">
                                     <h3 className="text-2xl font-bold text-gray-800">{step.title}</h3>
                                     <p className="mt-2 text-gray-600">{step.description}</p>
                                 </div>
                             </>
                         ) : (
                             <>
-                                <div className="md:w-5/12 text-right">
+                                {/* Text Section */}
+                                <div className="w-full md:w-5/12 text-center md:text-right">
                                     <h3 className="text-2xl font-bold text-gray-800">{step.title}</h3>
                                     <p className="mt-2 text-gray-600">{step.description}</p>
                                 </div>
-                                <div className="md:w-5/12 flex justify-start pl-8">{step.icon}</div>
+
+                                {/* Icon Section */}
+                                <div className="w-full md:w-5/12 flex justify-center md:justify-start">{step.icon}</div>
                             </>
                         )}
                     </div>
@@ -115,8 +127,13 @@ const Solutions = () => {
 
             {/* Bottom CTA */}
             <div className="text-center mt-16">
-                <p className="text-lg font-semibold">Experience a new level of AI-powered workflows.</p>
-                <button onClick={() => router.push("/contact")} className="bg-black text-white px-6 py-3 mt-4 rounded-lg">
+                <h4 className="text-2xl md:text-4xl font-bold text-gray-400">
+                    Experience a new level of AI-powered workflows.
+                </h4>
+                <button
+                    onClick={() => router.push("/contact")}
+                    className="bg-black text-white px-6 py-3 mt-4 rounded-lg"
+                >
                     Start Now
                 </button>
             </div>
