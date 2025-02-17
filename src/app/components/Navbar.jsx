@@ -13,13 +13,15 @@ const Navbar = () => {
       <div className="flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center">
-          <Image
-            src="/assets/icons/Kritrim_Solutions_logo.png"
-            width={90}
-            height={20}
-            alt="Kritrim Solutions Logo"
-            className="rounded-lg shadow-lg"
-          />
+          <Link href="/">
+            <Image
+              src="/assets/icons/Kritrim_Solutions_logo.png"
+              width={90}
+              height={20}
+              alt="Kritrim Solutions Logo"
+              className="rounded-lg shadow-lg"
+            />
+          </Link>
         </div>
 
         {/* Desktop Navigation Links */}
