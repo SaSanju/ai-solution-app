@@ -13,7 +13,7 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "https://www.kritrimsolutions.com/assets/images/whatsapp_preview.jpeg",
+        url: "https://kadvwdsvp6r2p8kv.public.blob.vercel-storage.com/whatsapp_preview-KDoRF0fYWqKkS1OqsibRaFvoKH0hyU.jpeg",
         width: 1200,
         height: 630,
         alt: "Kritrim Solutions Preview",
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta property="og:description" content="Revolutionizing AI-driven solutions for businesses." />
         <meta property="og:url" content="https://www.kritrimsolutions.com" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.kritrimsolutions.com/assets/images/whatsapp_preview.jpeg" />
+        <meta property="og:image" content="https://kadvwdsvp6r2p8kv.public.blob.vercel-storage.com/whatsapp_preview-KDoRF0fYWqKkS1OqsibRaFvoKH0hyU.jpeg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Kritrim Solutions Preview" />
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Kritrim Solutions - AI Innovation" />
         <meta name="twitter:description" content="Revolutionizing AI-driven solutions for businesses." />
-        <meta name="twitter:image" content="https://www.kritrimsolutions.com/assets/images/whatsapp_preview.jpeg" />
+        <meta name="twitter:image" content="https://kadvwdsvp6r2p8kv.public.blob.vercel-storage.com/whatsapp_preview-KDoRF0fYWqKkS1OqsibRaFvoKH0hyU.jpeg" />
       </head>
       <body>
         <Navbar />
