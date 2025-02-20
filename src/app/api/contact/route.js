@@ -15,6 +15,7 @@ export async function POST(req) {
 
     return NextResponse.json({ message: "Contact saved successfully", contact: newContact }, { status: 201 });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Failed to save contact" }, { status: 500 });
   }
 }
