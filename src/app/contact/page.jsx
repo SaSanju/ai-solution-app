@@ -2,30 +2,10 @@
 
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
 import ContactForm from "../components/ContactForm";
+import { scheduleMeeting } from "../utils/scheduleMeeting";
 import { motion } from "framer-motion";
 
-const Contact = () => {
-  
-  const scheduleMeeting = () => {
-    const eventTitle = "Meeting with Kritrim Solutions";
-    const eventDetails = "Let's discuss AI automation solutions.";
-    const eventLocation = "Google Meet";
-    const startTime = new Date().toISOString().replace(/-|:|\.\d+/g, ""); // Current time
-    const endTime = new Date(new Date().getTime() + 30 * 60000) // 30 min later
-      .toISOString()
-      .replace(/-|:|\.\d+/g, "");
-  
-    const guestEmails = ["vishnupritham54@gmail.com", "sayakbhattacharyyya@gmail.com"]; // List of guests
-  
-    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      eventTitle
-    )}&details=${encodeURIComponent(eventDetails)}&location=${encodeURIComponent(
-      eventLocation
-    )}&dates=${startTime}/${endTime}&add=${encodeURIComponent(guestEmails.join(","))}`;
-  
-    window.open(googleCalendarUrl, "_blank");
-  };  
-
+const Contact = () => {  
   return (
     <section className="py-20 px-4 sm:p-8 md:p-12 lg:p-16 bg-gray-900 text-center text-white">
       <h2 className="text-3xl md:text-4xl font-bold text-yellow-300">Let's Connect</h2>
