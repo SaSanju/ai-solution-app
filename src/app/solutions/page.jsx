@@ -10,29 +10,30 @@ import { useRouter } from "next/navigation";
 const steps = [
     {
         id: "step1",
-        title: "Step 1 - Sign Up",
-        description: "Create your account and access all integrated AI tools.",
+        title: "Sign Up & Connect",
+        description: "Get started by signing up or requesting a consultation.",
         icon: <AiOutlineUserAdd size={70} className="text-blue-600" />,
     },
     {
         id: "step2",
-        title: "Step 2 - Set Up",
-        description: "Set up AI agents to automate transcription, content creation, and meeting management.",
+        title: "Access Templates",
+        description: "Unlock a library of automation templates for instant productivity.",
         icon: <MdOutlineContentCopy size={70} className="text-blue-600" />,
     },
     {
         id: "step3",
-        title: "Step 3 - Integrate",
-        description: "Seamlessly integrate with Google Drive, OneDrive, and Microsoft Teams.",
+        title: "Integrate Seamlessly",
+        description: "Get expert support for smooth integration with your tools.",
         icon: <MdOutlineIntegrationInstructions size={70} className="text-green-600" />,
     },
     {
         id: "step4",
-        title: "Step 4 - Share",
-        description: "Use advanced sharing options to collaborate with your team efficiently.",
+        title: "Share Effortlessly",
+        description: "Collaborate with your team using multiple sharing options.",
         icon: <FaUsers size={70} className="text-purple-600" />,
     },
 ];
+
 
 const Solutions = () => {
     const { scrollYProgress } = useScroll();
@@ -134,7 +135,7 @@ const Solutions = () => {
                     onClick={() => router.push("/contact")}
                     className="bg-black text-white px-6 py-3 mt-4 rounded-lg"
                 >
-                    Start Now
+                    Schedule a Demo
                 </button>
             </div>
         </section>

@@ -1,8 +1,31 @@
 "use client";
 
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
+import ContactForm from "../components/ContactForm";
+import { motion } from "framer-motion";
 
 const Contact = () => {
+  
+  const scheduleMeeting = () => {
+    const eventTitle = "Meeting with Kritrim Solutions";
+    const eventDetails = "Let's discuss AI automation solutions.";
+    const eventLocation = "Google Meet";
+    const startTime = new Date().toISOString().replace(/-|:|\.\d+/g, ""); // Current time
+    const endTime = new Date(new Date().getTime() + 30 * 60000) // 30 min later
+      .toISOString()
+      .replace(/-|:|\.\d+/g, "");
+  
+    const guestEmails = ["vishnupritham54@gmail.com", "sayakbhattacharyyya@gmail.com"]; // List of guests
+  
+    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+      eventTitle
+    )}&details=${encodeURIComponent(eventDetails)}&location=${encodeURIComponent(
+      eventLocation
+    )}&dates=${startTime}/${endTime}&add=${encodeURIComponent(guestEmails.join(","))}`;
+  
+    window.open(googleCalendarUrl, "_blank");
+  };  
+
   return (
     <section className="py-20 px-4 sm:p-8 md:p-12 lg:p-16 bg-gray-900 text-center text-white">
       <h2 className="text-3xl md:text-4xl font-bold text-yellow-300">Let's Connect</h2>
@@ -23,45 +46,21 @@ const Contact = () => {
           <p className="flex items-center gap-2">
             <FaMapMarkerAlt className="text-yellow-300 text-xl" /> New Delhi, India
           </p>
-          <p className="flex items-center gap-2">
-            <FaCalendarAlt className="text-yellow-300 text-xl" /> Schedule a meeting
+          <p className="flex items-center gap-2 cursor-pointer hover:text-yellow-400 transition" onClick={scheduleMeeting}>
+            <FaCalendarAlt className="text-yellow-300 text-xl" /> Schedule a Meeting
+            <motion.span
+              className="ml-1"
+              animate={{ x: [0, 5, 0] }} // Smooth left-right movement
+              transition={{ repeat: Infinity, duration: 1.2 }}
+            >
+              ⏪ 
+            </motion.span>
           </p>
         </div>
 
         {/* Right - Contact Form Section */}
         <div className="flex justify-center w-full">
-          <form className="bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg space-y-3 w-full max-w-xs sm:max-w-md">
-            <input
-              type="text"
-              placeholder="Name"
-              className="w-full p-3 border rounded bg-gray-700 text-white"
-              required
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full p-3 border rounded bg-gray-700 text-white"
-              required
-            />
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              className="w-full p-3 border rounded bg-gray-700 text-white"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Country"
-              className="w-full p-3 border rounded bg-gray-700 text-white"
-              required
-            />
-            <button
-              type="submit"
-              className="w-full bg-yellow-500 text-black p-3 rounded hover:bg-yellow-600 transition cursor-pointer"
-            >
-              Submit
-            </button>
-          </form>
+            <ContactForm />
         </div>
       </div>
     </section>
