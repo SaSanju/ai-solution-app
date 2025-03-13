@@ -3,15 +3,17 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useLoader } from "../context/LoaderContext";
 
 const BlogsVideos = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [youtubeVideos, setYoutubeVideos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [setError] = useState(null);
+  const { setLoading } = useLoader();
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const res = await fetch("/api/contents");
         if (!res.ok) throw new Error("Failed to fetch data");
@@ -27,9 +29,6 @@ const BlogsVideos = () => {
 
     fetchData();
   }, []);
-
-  if (loading) return <p className="text-center text-white">Loading...</p>;
-  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
 
   return (
     <section className="p-10 bg-gradient-to-r from-blue-500 to-purple-700 text-white">

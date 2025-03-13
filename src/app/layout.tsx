@@ -1,5 +1,7 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import PageLoader from "./components/PageLoader";
+import { LoaderProvider } from "./context/LoaderContext";
 import "./globals.css"; // Import global styles
 import { ReactNode } from "react";
 
@@ -44,7 +46,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <Navbar />
-        <div className="pt-16">{children}</div>
+        <LoaderProvider>
+          <PageLoader />
+          <div className="pt-16">{children}</div>
+        </LoaderProvider>
         <Footer />
       </body>
     </html>
