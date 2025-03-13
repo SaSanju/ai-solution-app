@@ -1,36 +1,36 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-// Dummy data (replace with dynamic data in the future)
-const blogPosts = [
-  { title: "AI Trends in 2025", url: "/blogs/ai-trends-2025", excerpt: "Explore the latest AI trends shaping the future." },
-  { title: "How AI is Transforming Marketing", url: "/blogs/ai-marketing", excerpt: "Learn how AI is revolutionizing digital marketing strategies." },
-];
-
-const youtubeVideos = [
-  {
-    category: "Healthcare",
-    title: "Fostering holistic medical care with AI health assistant",
-    description:
-      "Digitalize medical care with an AI health assistant app that analyzes patient’s health based on their medical history and past consultations",
-    tags: ["C++", "Dall E 2", "Dall E 3", "GPT-4o", "RAG"],
-    url: "https://www.youtube.com/watch?v=0C4JaEiuzkc&t=5s",
-    image: "https://kadvwdsvp6r2p8kv.public.blob.vercel-storage.com/AI%20Agent-X0hj18hmukECpzRTABMVxQAOVG4eFb.jpeg",
-  },
-  {
-    category: "Food & Travel",
-    title: "Simplify traveling with an AI trip planner",
-    description:
-      "Replace manual and fragmented travel planning approach with an AI-powered trip planner that customizes the itinerary based on your specifications",
-    tags: ["ChatGPT-4o APIs", "Flutter", "Gemini API", "Google Maps API", "RAG"],
-    url: "https://www.youtube.com/watch?v=0C4JaEiuzkc&t=5s",
-    image: "https://kadvwdsvp6r2p8kv.public.blob.vercel-storage.com/AI%20Agent-X0hj18hmukECpzRTABMVxQAOVG4eFb.jpeg",
-  },
-];
-
 const BlogsVideos = () => {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [youtubeVideos, setYoutubeVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/contents");
+        if (!res.ok) throw new Error("Failed to fetch data");
+        const data = await res.json();
+        setBlogPosts(data.blogs);
+        setYoutubeVideos(data.videos);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <p className="text-center text-white">Loading...</p>;
+  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
+
   return (
     <section className="p-10 bg-gradient-to-r from-blue-500 to-purple-700 text-white">
       <h1 className="text-4xl font-bold text-center mb-6">Blogs & Videos</h1>
@@ -59,10 +59,10 @@ const BlogsVideos = () => {
 
               {/* Content Section */}
               <div className="p-4">
-                <span className="bg-black text-white text-xs px-2 py-1 rounded">
+                {/* <span className="bg-black text-white text-xs px-2 py-1 rounded">
                   {video.category}
-                </span>
-                <h3 className="text-lg font-bold mt-2">{video.title}</h3>
+                </span> */}
+                <h3 className="text-black font-bold mt-2">{video.title}</h3>
                 <p className="text-gray-600 text-sm mt-1">{video.description}</p>
 
                 {/* Tags */}
@@ -103,7 +103,7 @@ const BlogsVideos = () => {
             >
               <h3 className="text-2xl font-semibold">{post.title}</h3>
               <p className="text-gray-600 mt-2">{post.excerpt}</p>
-              <Link href={post.url} className="text-blue-600 font-semibold mt-4 inline-block">
+              <Link href={post.url} target="_blank" className="text-blue-600 font-semibold mt-4 inline-block">
                 Read More →
               </Link>
             </motion.div>

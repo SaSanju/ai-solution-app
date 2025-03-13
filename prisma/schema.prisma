@@ -15,3 +15,22 @@ model Contact {
   country   String
   createdAt DateTime @default(now())
 }
+
+model Blog {
+  id        String @id @default(uuid())
+  title     String
+  url       String
+  excerpt   String
+  createdAt DateTime @default(now())
+}
+
+model Video {
+  id          String @id @default(uuid())
+  category    String
+  title       String
+  description String
+  tags        String[] // Use array type for multiple tags
+  url         String
+  image       String
+  createdAt   DateTime @default(now())
+}
