@@ -16,8 +16,6 @@ interface AIProvider {
 
 class MockProvider implements AIProvider {
   async generateCaptions(request: CaptionRequest): Promise<CaptionResponse> {
-    const { productName, productDescription, tone, goal } = request;
-    
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
