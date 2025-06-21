@@ -1,6 +1,20 @@
 # AI Service Setup Guide
 
-This guide explains how to configure the AI service to switch between OpenAI, Llama, and Mock providers.
+This guide explains how to configure the modular AI service to switch between OpenAI and Groq providers.
+
+## Architecture
+
+The AI service is now built with a modular architecture:
+
+```
+src/app/api/services/
+├── ai-service.ts              # Main service orchestrator
+├── providers/
+│   ├── base-provider.ts       # Base provider interface and common logic
+│   ├── groq-provider.ts       # Groq API implementation
+│   ├── openai-provider.ts     # OpenAI API implementation
+│   └── index.ts              # Provider exports
+```
 
 ## Environment Variables
 
@@ -10,9 +24,17 @@ Create a `.env.local` file in your project root with the following variables:
 
 ```bash
 # AI Provider Configuration
-# Set to 'openai', 'llama', or 'mock' to choose the AI provider
-# If not set, defaults to 'mock'
-AI_PROVIDER=mock
+# Set to 'openai' or 'groq' to choose the AI provider
+# If not set, defaults to 'groq'
+AI_PROVIDER=groq
+```
+
+### Groq Configuration (Default)
+
+```bash
+# Required for Groq provider (default)
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=llama3-8b-8192  # Optional, defaults to llama3-8b-8192
 ```
 
 ### OpenAI Configuration
@@ -20,61 +42,50 @@ AI_PROVIDER=mock
 ```bash
 # Required for OpenAI provider
 OPENAI_API_KEY=your_openai_api_key_here
-```
-
-### Llama Configuration
-
-```bash
-# Required for Llama provider
-LLAMA_API_URL=https://your-llama-api-endpoint.com/v1/chat/completions
-LLAMA_API_KEY=your_llama_api_key_here  # Optional
-LLAMA_MODEL=llama-2-7b-chat  # Optional, defaults to llama-2-7b-chat
+OPENAI_MODEL=gpt-3.5-turbo  # Optional, defaults to gpt-3.5-turbo
 ```
 
 ## Configuration Examples
 
-### Using Mock Provider (Default - No API Keys Required)
+### Using Groq (Default)
 ```bash
-AI_PROVIDER=mock
-# No additional configuration needed
+AI_PROVIDER=groq
+GROQ_API_KEY=gsk-your-groq-api-key
+GROQ_MODEL=llama3-8b-8192
 ```
 
 ### Using OpenAI
 ```bash
 AI_PROVIDER=openai
 OPENAI_API_KEY=sk-your-openai-api-key
-```
-
-### Using Llama
-```bash
-AI_PROVIDER=llama
-LLAMA_API_URL=https://api.llama.com/v1/chat/completions
-LLAMA_API_KEY=your-llama-key
-LLAMA_MODEL=llama-2-13b-chat
+OPENAI_MODEL=gpt-3.5-turbo
 ```
 
 ## How It Works
 
 1. **Provider Selection**: The service automatically selects the provider based on `AI_PROVIDER` environment variable
-2. **Default to Mock**: If no provider is specified, it defaults to the mock provider
-3. **Fallback Chain**: Llama → OpenAI → Mock (if Llama fails)
-4. **Error Handling**: Comprehensive error handling for all providers
-5. **Response Parsing**: All providers use the same response parsing logic for consistency
+2. **Default to Groq**: If no provider is specified, it defaults to Groq provider
+3. **Fallback Chain**: Groq → OpenAI (if Groq fails)
+4. **Modular Design**: Each provider is isolated in its own file
+5. **Common Interface**: All providers implement the same interface
+6. **Shared Logic**: Common functionality is in the base provider
 
-## Mock Provider Features
+## Code Structure
 
-The Mock Provider is perfect for:
-- **Development**: No API keys required
-- **Testing**: Consistent, predictable responses
-- **Demo**: Shows how the service works
-- **Fallback**: When other providers fail
+### Base Provider (`base-provider.ts`)
+- Defines common interfaces (`CaptionRequest`, `CaptionResponse`, `AIProvider`)
+- Provides shared functionality (response parsing, fallback captions, prompt creation)
+- Abstract class that all providers extend
 
-### Mock Provider Behavior:
-- ✅ **Realistic Delay**: 1-second delay to simulate API calls
-- ✅ **Tone-Aware**: Different emojis based on selected tone
-- ✅ **Goal-Aware**: Different emojis based on selected goal
-- ✅ **Consistent Format**: Same response structure as real providers
-- ✅ **No Dependencies**: Works without any external APIs
+### Provider Implementations
+- **GroqProvider**: Handles Groq API calls with Llama 3 models
+- **OpenAIProvider**: Handles OpenAI API calls with GPT models
+- Each provider handles its own authentication and API-specific logic
+
+### Main Service (`ai-service.ts`)
+- Orchestrates provider selection and fallback logic
+- Provides a clean interface for the API routes
+- Handles provider initialization errors
 
 ## API Usage
 
@@ -92,13 +103,35 @@ POST /api/generate-caption
 
 ## Features
 
-- ✅ **Provider Switching**: Easy switching between OpenAI, Llama, and Mock
-- ✅ **Automatic Fallback**: Llama → OpenAI → Mock fallback chain
-- ✅ **Mock Provider**: No API keys required for development
+- ✅ **Modular Architecture**: Clean separation of concerns
+- ✅ **Provider Switching**: Easy switching between OpenAI and Groq
+- ✅ **Automatic Fallback**: Groq → OpenAI fallback chain
+- ✅ **Groq Default**: Fast inference with Llama 3 models
 - ✅ **Consistent Interface**: Same API regardless of provider
 - ✅ **Error Handling**: Comprehensive error messages
 - ✅ **Type Safety**: Full TypeScript support
-- ✅ **Response Parsing**: Robust parsing for different response formats
+- ✅ **Extensible**: Easy to add new providers
+
+## Adding New Providers
+
+To add a new provider:
+
+1. Create a new file in `providers/` (e.g., `new-provider.ts`)
+2. Extend `BaseProvider` class
+3. Implement the `generateCaptions` method
+4. Add the provider to the `AIService` constructor
+5. Export from `providers/index.ts`
+
+Example:
+```typescript
+import { BaseProvider, CaptionRequest, CaptionResponse } from './base-provider';
+
+export class NewProvider extends BaseProvider {
+  async generateCaptions(request: CaptionRequest): Promise<CaptionResponse> {
+    // Implementation here
+  }
+}
+```
 
 ## Troubleshooting
 
@@ -107,21 +140,19 @@ POST /api/generate-caption
 1. **"AI service not properly configured"**
    - Check that your environment variables are set correctly
    - Ensure the API keys are valid
-   - Try using `AI_PROVIDER=mock` for testing
+   - Verify the provider name is correct
 
 2. **"Failed to generate captions"**
    - Check your internet connection
    - Verify API endpoint URLs are correct
    - Check API rate limits
-   - The service will automatically fall back to mock provider
 
-3. **Provider not switching**
-   - Ensure `AI_PROVIDER` is set to 'openai', 'llama', or 'mock'
+3. **"No AI providers available"**
+   - Ensure at least one provider is properly configured
+   - Check that API keys are valid
+   - Verify environment variables are loaded
+
+4. **Provider not switching**
+   - Ensure `AI_PROVIDER` is set to 'openai' or 'groq'
    - Check console logs for provider initialization messages
-   - If no provider is set, it defaults to 'mock'
-
-4. **Using Mock Provider**
-   - No configuration needed
-   - Perfect for development and testing
-   - Provides realistic responses with appropriate delays
-   - Tone and goal-aware emoji selection 
+   - If no provider is set, it defaults to 'groq' 
