@@ -43,6 +43,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<{ caption
           { status: 500 }
         );
       }
+      if (error.message.includes('No AI providers available')) {
+        return NextResponse.json(
+          { error: "No AI providers are available. Please configure at least one provider." },
+          { status: 500 }
+        );
+      }
     }
     
     return NextResponse.json(
