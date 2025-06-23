@@ -80,11 +80,8 @@ const CaptionGenerator = () => {
         }
     };
 
-    const regenerateCaption = (index) => {
-        const newCaption = `🔄 Regenerated: ${formData.productName} - ${formData.productDescription} ${formData.tone} ${formData.goal} vibes! ✨`;
-        const newCaptions = [...captions];
-        newCaptions[index] = newCaption;
-        setCaptions(newCaptions);
+    const regenerateCaptions = () => {
+        generateCaptions();
     };
 
     // Don't render until client-side
@@ -167,11 +164,11 @@ const CaptionGenerator = () => {
                             <select
                                 value={formData.tone}
                                 onChange={(e) => handleInputChange("tone", e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
                             >
                                 <option value="">Select tone...</option>
                                 {tones.map(tone => (
-                                    <option key={tone} value={tone}>{tone}</option>
+                                    <option key={tone} value={tone} className="text-black dark:text-white">{tone}</option>
                                 ))}
                             </select>
                         </div>
@@ -184,11 +181,11 @@ const CaptionGenerator = () => {
                             <select
                                 value={formData.goal}
                                 onChange={(e) => handleInputChange("goal", e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
                             >
                                 <option value="">Select goal...</option>
                                 {goals.map(goal => (
-                                    <option key={goal} value={goal}>{goal}</option>
+                                    <option key={goal} value={goal} className="text-black dark:text-white">{goal}</option>
                                 ))}
                             </select>
                         </div>
@@ -247,7 +244,7 @@ const CaptionGenerator = () => {
                                         </button>
                                         {index === 0 && (
                                             <button
-                                                onClick={() => regenerateCaption(index)}
+                                                onClick={regenerateCaptions}
                                                 className="flex items-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg transition-colors"
                                             >
                                                 <MdRefresh size={18} />

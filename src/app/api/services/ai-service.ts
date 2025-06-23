@@ -1,4 +1,4 @@
-import { AIProvider, CaptionRequest, CaptionResponse, GroqProvider, OpenAIProvider } from './providers';
+import { AIProvider, CaptionRequest, CaptionResponse, HashtagRequest, HashtagResponse, GroqProvider, OpenAIProvider } from './providers';
 
 export class AIService {
   private provider: AIProvider;
@@ -47,6 +47,10 @@ export class AIService {
   async generateCaptions(request: CaptionRequest): Promise<CaptionResponse> {
     return this.provider.generateCaptions(request);
   }
+
+  async generateHashtags(request: HashtagRequest): Promise<HashtagResponse> {
+    return this.provider.generateHashtags(request);
+  }
 }
 
-export type { CaptionRequest, CaptionResponse, AIProvider }; 
+export type { CaptionRequest, CaptionResponse, HashtagRequest, HashtagResponse, AIProvider }; 

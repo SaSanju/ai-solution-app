@@ -1,4 +1,6 @@
-import { BaseProvider, CaptionRequest, CaptionResponse } from './base-provider';
+import { BaseProvider, CaptionRequest, CaptionResponse, HashtagRequest, HashtagResponse } from './base-provider';
+import { createCaptionPrompt, createHashtagPrompt } from './groq-prompts';
+import { callGroq } from './groq-api'; 
 
 export class GroqProvider extends BaseProvider {
   private apiKey: string;
@@ -14,46 +16,28 @@ export class GroqProvider extends BaseProvider {
     }
   }
 
+  createCaptionPrompt = createCaptionPrompt;
+  createHashtagPrompt = createHashtagPrompt;
+
   async generateCaptions(request: CaptionRequest): Promise<CaptionResponse> {
-    const prompt = this.createPrompt(request);
+    const prompt = this.createCaptionPrompt(request);
+    return callGroq({
+      apiKey: this.apiKey,
+      model: this.model,
+      prompt,
+      request,
+      type: 'caption',
+    }) as Promise<CaptionResponse>;
+  }
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.apiKey}`,
-      },
-      body: JSON.stringify({
-        model: this.model,
-        messages: [
-          {
-            role: "system",
-            content: "You are a professional social media marketing expert who creates engaging captions. Always respond with valid JSON arrays containing exactly 3 caption strings."
-          },
-          {
-            role: "user",
-            content: prompt
-          }
-        ],
-        max_tokens: 500,
-        temperature: 0.8,
-        stream: false,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Groq API Error:", errorData);
-      throw new Error("Failed to generate captions with Groq");
-    }
-
-    const data = await response.json();
-    const generatedText = data.choices?.[0]?.message?.content;
-
-    if (!generatedText) {
-      throw new Error("No response from Groq model");
-    }
-
-    return this.parseResponse(generatedText, request);
+  async generateHashtags(request: HashtagRequest): Promise<HashtagResponse> {
+    const prompt = this.createHashtagPrompt(request);
+    return callGroq({
+      apiKey: this.apiKey,
+      model: this.model,
+      prompt,
+      request,
+      type: 'hashtag',
+    }) as Promise<HashtagResponse>;
   }
 } 

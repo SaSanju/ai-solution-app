@@ -36,30 +36,33 @@ const HashtagGenerator = () => {
         }
 
         setIsGenerating(true);
-        
-        // Simulate API call
-        setTimeout(() => {
-            const mockHashtags = [
-                `#${formData.productName.replace(/\s+/g, '')}`,
-                `#${formData.productCategory.toLowerCase()}`,
-                `#${formData.targetAudience.replace(/\s+/g, '').toLowerCase()}`,
-                `#trending`,
-                `#viral`,
-                `#musthave`,
-                `#recommended`,
-                `#quality`,
-                `#bestchoice`,
-                `#loved`,
-                `#amazing`,
-                `#incredible`,
-                `#perfect`,
-                `#awesome`,
-                `#fabulous`
-            ];
-            
-            setHashtags(mockHashtags);
+        try {
+            const response = await fetch('/api/generate-hashtags', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    productName: formData.productName,
+                    productCategory: formData.productCategory,
+                    targetAudience: formData.targetAudience
+                })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to generate hashtags');
+            }
+            if (data.success && data.hashtags) {
+                setHashtags(data.hashtags);
+            } else {
+                throw new Error('Invalid response format');
+            }
+        } catch (error) {
+            console.error('Error generating hashtags:', error);
+            alert(`Error: ${error.message}`);
+        } finally {
             setIsGenerating(false);
-        }, 2000);
+        }
     };
 
     const copyToClipboard = async (text) => {
@@ -77,24 +80,8 @@ const HashtagGenerator = () => {
     };
 
     const regenerateHashtags = () => {
-        const newHashtags = [
-            `#${formData.productName.replace(/\s+/g, '')}new`,
-            `#${formData.productCategory.toLowerCase()}trend`,
-            `#${formData.targetAudience.replace(/\s+/g, '').toLowerCase()}favorite`,
-            `#trendingnow`,
-            `#viralcontent`,
-            `#mustbuy`,
-            `#toprated`,
-            `#premium`,
-            `#exclusive`,
-            `#trending`,
-            `#popular`,
-            `#hot`,
-            `#trending`,
-            `#viral`,
-            `#trending`
-        ];
-        setHashtags(newHashtags);
+        // Call the same API as generateHashtags to fetch new hashtags
+        generateHashtags();
     };
 
     // Don't render until client-side
@@ -160,11 +147,11 @@ const HashtagGenerator = () => {
                             <select
                                 value={formData.productCategory}
                                 onChange={(e) => handleInputChange("productCategory", e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
                             >
                                 <option value="">Select category...</option>
                                 {categories.map(category => (
-                                    <option key={category} value={category}>{category}</option>
+                                    <option key={category} value={category} className="text-black dark:text-white">{category}</option>
                                 ))}
                             </select>
                         </div>
@@ -177,11 +164,11 @@ const HashtagGenerator = () => {
                             <select
                                 value={formData.targetAudience}
                                 onChange={(e) => handleInputChange("targetAudience", e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
                             >
                                 <option value="">Select audience...</option>
                                 {audiences.map(audience => (
-                                    <option key={audience} value={audience}>{audience}</option>
+                                    <option key={audience} value={audience} className="text-black dark:text-white">{audience}</option>
                                 ))}
                             </select>
                         </div>
