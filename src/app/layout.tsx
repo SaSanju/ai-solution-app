@@ -4,6 +4,10 @@ import PageLoader from "./components/PageLoader";
 import { LoaderProvider } from "./context/LoaderContext";
 import "./globals.css"; // Import global styles
 import { ReactNode } from "react";
+import { Inter } from 'next/font/google'
+import SessionProviderWrapper from "./components/SessionProviderWrapper";
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: "Kritrim Solutions - AI Innovation",
@@ -44,13 +48,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="twitter:description" content="Revolutionizing AI-driven solutions for businesses." />
         <meta name="twitter:image" content="https://kadvwdsvp6r2p8kv.public.blob.vercel-storage.com/whatsapp_preview-KDoRF0fYWqKkS1OqsibRaFvoKH0hyU.jpeg" />
       </head>
-      <body>
-        <Navbar />
-        <LoaderProvider>
-          <PageLoader />
-          <div className="pt-16">{children}</div>
-        </LoaderProvider>
-        <Footer />
+      <body className={inter.className}>
+        <SessionProviderWrapper>
+          <Navbar />
+          <LoaderProvider>
+            <PageLoader />
+            <div className="pt-16">{children}</div>
+          </LoaderProvider>
+          <Footer />
+        </SessionProviderWrapper>
       </body>
     </html>
   );
