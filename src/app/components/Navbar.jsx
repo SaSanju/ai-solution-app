@@ -63,7 +63,7 @@ const Navbar = () => {
 
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-black text-white flex flex-col items-center py-4 space-y-4">
+        <div className="md:hidden bg-black text-white flex flex-col items-center py-4 space-y-4 absolute left-0 right-0 top-full z-20 shadow-lg">
           <Link href="/" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>Home</Link>
           <Link href="/solutions" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>AI Solutions</Link>
           <Link href="/blogs-videos" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>Blogs & Videos</Link>
@@ -85,7 +85,7 @@ const Navbar = () => {
                 <a href="#" className="hover:text-blue-400 transition duration-300"><FaTwitter size={24} /></a>
                 <a href="#" className="hover:text-blue-400 transition duration-300"><FaLinkedin size={24} /></a>
                 <a href="#" className="hover:text-blue-400 transition duration-300"><FaInstagram size={24} /></a>
-                <Link href="/login" className="ml-2 px-4 py-2 bg-blue-600 rounded text-white font-semibold hover:bg-blue-700 transition-colors">Login</Link>
+                <Link href="/auth" className="ml-2 px-4 py-2 bg-blue-600 rounded text-white font-semibold hover:bg-blue-700 transition-colors">Login</Link>
               </>
             )}
           </div>
