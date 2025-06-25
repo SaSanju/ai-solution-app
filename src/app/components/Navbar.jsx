@@ -5,10 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaBars, FaTimes } from "react-icons/fa";
 import { useSession, signOut } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { data: session } = useSession();
+  const pathname = usePathname();
 
   return (
     <nav className="p-4 bg-black text-white fixed top-0 w-full shadow-md z-10 px-8">
@@ -56,14 +58,16 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="md:hidden text-white" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-        </button>
+        {pathname !== "/auth" && (
+          <button className="md:hidden text-white" onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          </button>
+        )}
       </div>
 
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-black text-white flex flex-col items-center py-4 space-y-4 absolute left-0 right-0 top-full z-20 shadow-lg">
+        <div className="md:hidden bg-black text-white flex flex-col items-center py-4 space-y-4">
           <Link href="/" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>Home</Link>
           <Link href="/solutions" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>AI Solutions</Link>
           <Link href="/blogs-videos" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>Blogs & Videos</Link>
