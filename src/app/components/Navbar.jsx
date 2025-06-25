@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaBars, FaTimes } from "react-icons/fa";
@@ -11,6 +11,10 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { data: session } = useSession();
   const pathname = usePathname();
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   return (
     <nav className="p-4 bg-black text-white fixed top-0 w-full shadow-md z-10 px-8">
