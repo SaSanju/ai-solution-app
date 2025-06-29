@@ -42,6 +42,8 @@ model User {
   emailVerified DateTime?
   image         String?
   hashedPassword String?
+  subscription  Subscription?
+  usage         Usage[]
   accounts      Account[]
   sessions      Session[]
 }
@@ -78,4 +80,25 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Subscription {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  razorpayCustomerId String?  @unique
+  razorpaySubscriptionId String? @unique
+  status            String   @default("free") // free, pro, cancelled
+  currentPeriodEnd  DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Usage {
+  id        String   @id @default(cuid())
+  userId    String
+  feature   String   // "caption", "hashtag"
+  count     Int      @default(1)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

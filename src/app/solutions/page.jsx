@@ -114,8 +114,8 @@ const Solutions = () => {
                     >
                         {index % 2 === 0 ? (
                             <>
-                                {/* Icon Section */}
-                                <div className="w-full md:w-5/12 flex justify-center md:justify-end">
+                                {/* Icon Section - Hidden on mobile */}
+                                <div className="hidden md:flex w-full md:w-5/12 justify-center md:justify-end">
                                     <motion.div
                                         whileHover={{ scale: 1.1 }}
                                         className="cursor-pointer"
@@ -125,16 +125,16 @@ const Solutions = () => {
                                     </motion.div>
                                 </div>
 
-                                {/* Text Section */}
-                                <div className="w-full md:w-5/12 text-center md:text-left">
+                                {/* Text Section - Centered on mobile */}
+                                <div className="w-full md:w-5/12 text-center">
                                     <h3 className="text-2xl font-bold text-gray-800 mb-4">{solution.title}</h3>
                                     <p className="mt-2 text-gray-600 mb-6">{solution.description}</p>
                                     
                                     {/* Features List */}
                                     <div className="space-y-2">
                                         {solution.features.map((feature, featureIndex) => (
-                                            <div key={featureIndex} className="flex items-center text-sm text-gray-600">
-                                                <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                                            <div key={featureIndex} className="flex items-center justify-center md:justify-start text-sm text-gray-600">
+                                                <div className="hidden md:block w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
                                                 {feature}
                                             </div>
                                         ))}
@@ -150,7 +150,7 @@ const Solutions = () => {
                             </>
                         ) : (
                             <>
-                                {/* Text Section */}
+                                {/* Text Section - Centered on mobile */}
                                 <div className="w-full md:w-5/12 text-center md:text-right">
                                     <h3 className="text-2xl font-bold text-gray-800 mb-4">{solution.title}</h3>
                                     <p className="mt-2 text-gray-600 mb-6">{solution.description}</p>
@@ -158,9 +158,9 @@ const Solutions = () => {
                                     {/* Features List */}
                                     <div className="space-y-2">
                                         {solution.features.map((feature, featureIndex) => (
-                                            <div key={featureIndex} className="flex items-center justify-end text-sm text-gray-600">
+                                            <div key={featureIndex} className="flex items-center justify-center md:justify-end text-sm text-gray-600">
                                                 {feature}
-                                                <div className="w-2 h-2 bg-blue-500 rounded-full ml-3"></div>
+                                                <div className="hidden md:block w-2 h-2 bg-blue-500 rounded-full ml-3"></div>
                                             </div>
                                         ))}
                                     </div>
@@ -173,8 +173,8 @@ const Solutions = () => {
                                     </button>
                                 </div>
 
-                                {/* Icon Section */}
-                                <div className="w-full md:w-5/12 flex justify-center md:justify-start">
+                                {/* Icon Section - Hidden on mobile */}
+                                <div className="hidden md:flex w-full md:w-5/12 justify-center md:justify-start">
                                     <motion.div
                                         whileHover={{ scale: 1.1 }}
                                         className="cursor-pointer"
