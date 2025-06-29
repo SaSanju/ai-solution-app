@@ -3,8 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdContentCopy, MdRefresh } from "react-icons/md";
+import { useSession } from "next-auth/react";
+import SubscriptionModal from "../components/SubscriptionModal";
 
 const HashtagGenerator = () => {
+    const { data: session } = useSession();
     const [formData, setFormData] = useState({
         productName: "",
         productCategory: "",
@@ -14,6 +17,8 @@ const HashtagGenerator = () => {
     const [hashtags, setHashtags] = useState([]);
     const [isGenerating, setIsGenerating] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+    const [usageInfo, setUsageInfo] = useState({ current: 0, limit: 5 });
 
     const categories = ["Fashion", "Beauty", "Technology", "Food", "Fitness", "Travel", "Home", "Business", "Education", "Entertainment"];
     const audiences = ["Teenagers", "Young Adults", "Professionals", "Parents", "Students", "Seniors", "Fitness Enthusiasts", "Tech Savvy", "Luxury Buyers", "Budget Conscious"];
@@ -21,6 +26,35 @@ const HashtagGenerator = () => {
     useEffect(() => {
         setIsMounted(true);
     }, []);
+
+    // Fetch current usage when user is authenticated
+    useEffect(() => {
+        if (session?.user?.id) {
+            fetchCurrentUsage();
+        }
+    }, [session]);
+
+    const fetchCurrentUsage = async () => {
+        try {
+            const response = await fetch('/api/usage/current', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ feature: 'hashtag' })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setUsageInfo({ 
+                    current: data.isPro ? '∞' : data.currentUsage, 
+                    limit: data.limit 
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching usage:', error);
+        }
+    };
 
     const handleInputChange = (field, value) => {
         setFormData(prev => ({
@@ -30,6 +64,11 @@ const HashtagGenerator = () => {
     };
 
     const generateHashtags = async () => {
+        if (!session) {
+            alert("Please sign in to use this feature");
+            return;
+        }
+
         if (!formData.productName || !formData.productCategory || !formData.targetAudience) {
             alert("Please fill in all fields");
             return;
@@ -37,6 +76,33 @@ const HashtagGenerator = () => {
 
         setIsGenerating(true);
         try {
+            // First, track usage and check limits
+            const usageResponse = await fetch('/api/usage/track', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ feature: 'hashtag' })
+            });
+
+            const usageData = await usageResponse.json();
+
+            if (!usageResponse.ok) {
+                if (usageData.upgradeRequired) {
+                    setUsageInfo({ current: usageData.currentUsage, limit: usageData.limit });
+                    setShowSubscriptionModal(true);
+                    return;
+                }
+                throw new Error(usageData.error || 'Failed to track usage');
+            }
+
+            // Update usage info
+            setUsageInfo({ 
+                current: usageData.isPro ? '∞' : usageData.currentUsage, 
+                limit: usageData.limit 
+            });
+
+            // Generate hashtags
             const response = await fetch('/api/generate-hashtags', {
                 method: 'POST',
                 headers: {
@@ -117,9 +183,14 @@ const HashtagGenerator = () => {
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
                         AI Hashtag Generator
                     </h1>
-                    <p className="text-xl text-gray-600">
+                    <p className="text-xl text-gray-600 mb-4">
                         Create trending hashtags for your social media posts
                     </p>
+                    {session && (
+                        <div className="inline-flex items-center bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium">
+                            <span>Usage: {usageInfo.current} / {usageInfo.limit}</span>
+                        </div>
+                    )}
                 </div>
 
                 {/* Form */}
@@ -187,9 +258,14 @@ const HashtagGenerator = () => {
                                     Generating...
                                 </div>
                             ) : (
-                                "Generate Hashtags"
+                                session ? "Generate Hashtags" : "Sign In to Generate"
                             )}
                         </button>
+                        {!session && (
+                            <p className="text-sm text-gray-500 mt-2">
+                                Free users get 5 generations per day
+                            </p>
+                        )}
                     </div>
                 </div>
 
@@ -255,6 +331,15 @@ const HashtagGenerator = () => {
                     )}
                 </AnimatePresence>
             </div>
+
+            {/* Subscription Modal */}
+            <SubscriptionModal
+                isOpen={showSubscriptionModal}
+                onClose={() => setShowSubscriptionModal(false)}
+                currentUsage={usageInfo.current}
+                limit={usageInfo.limit}
+                feature="hashtag"
+            />
         </section>
     );
 };
