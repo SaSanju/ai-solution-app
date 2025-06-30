@@ -144,7 +144,7 @@ const Solutions = () => {
                                         onClick={() => handleSolutionClick(solution.link)}
                                         className="mt-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
                                     >
-                                        Try Now
+                                        {solution.id === "content-automation" || solution.id === "ai-integration" ? "Coming Soon" : "Try Now"}
                                     </button>
                                 </div>
                             </>
@@ -169,7 +169,7 @@ const Solutions = () => {
                                         onClick={() => handleSolutionClick(solution.link)}
                                         className="mt-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
                                     >
-                                        Try Now
+                                        {solution.id === "content-automation" || solution.id === "ai-integration" ? "Coming Soon" : "Try Now"}
                                     </button>
                                 </div>
 
