@@ -138,7 +138,7 @@ async function handlePaymentCaptured(payment) {
   console.log('Payment captured:', payment.id);
   
   // Get the subscription ID from the payment
-  const subscriptionId = payment.subscription_id;
+  const subscriptionId = payment.notes?.subscription_id;
   
   if (!subscriptionId) {
     console.log('No subscription ID found in payment');
