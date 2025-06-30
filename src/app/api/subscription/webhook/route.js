@@ -135,7 +135,40 @@ async function handleSubscriptionCancelled(subscription) {
 }
 
 async function handlePaymentCaptured(payment) {
-  // Handle successful payment
-  // You can add additional logic here if needed
   console.log('Payment captured:', payment.id);
+  
+  // Get the subscription ID from the payment
+  const subscriptionId = payment.subscription_id;
+  
+  if (!subscriptionId) {
+    console.log('No subscription ID found in payment');
+    return;
+  }
+
+  try {
+    // Find the subscription to get the user ID
+    const subscription = await prisma.subscription.findFirst({
+      where: { razorpaySubscriptionId: subscriptionId }
+    });
+
+    if (!subscription) {
+      console.log('No subscription found for payment:', payment.id);
+      return;
+    }
+
+    // Update the subscription to pro status
+    const updatedSubscription = await prisma.subscription.update({
+      where: { id: subscription.id },
+      data: {
+        status: 'pro',
+        // Set current period end based on payment amount or subscription plan
+        // You might want to calculate this based on your subscription plan
+        currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days from now
+      }
+    });
+
+    console.log('Subscription updated to pro after payment capture:', updatedSubscription);
+  } catch (error) {
+    console.error('Error updating subscription after payment capture:', error);
+  }
 } 
