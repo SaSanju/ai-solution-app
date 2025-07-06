@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaCrown, FaCheck, FaTimes, FaInfinity } from "react-icons/fa";
+import { FaCrown, FaCheck, FaTimes, FaInfinity, FaClock } from "react-icons/fa";
 
-const SubscriptionModal = ({ isOpen, onClose, currentUsage, limit, feature }) => {
+const SubscriptionModal = ({ isOpen, onClose, currentUsage, limit, feature, subscriptionStatus }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUpgrade = async () => {
@@ -50,6 +50,21 @@ const SubscriptionModal = ({ isOpen, onClose, currentUsage, limit, feature }) =>
             className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-4"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Trial Status UI */}
+            {subscriptionStatus === 'trial' && (
+              <div className="text-center mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <FaClock className="text-white text-lg" />
+                </div>
+                <h2 className="text-xl font-bold text-gray-800 mb-1">
+                  Free Trial Active
+                </h2>
+                <p className="text-sm text-gray-600">
+                  You are currently enjoying your 7-day free trial. Upgrade to Pro to keep unlimited access!
+                </p>
+              </div>
+            )}
+
             {/* Header */}
             <div className="text-center mb-4">
               <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-3">
