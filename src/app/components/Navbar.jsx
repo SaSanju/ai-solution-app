@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaBars, FaTimes } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaBars, FaTimes, FaCrown, FaClock, FaUser } from "react-icons/fa";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
@@ -11,10 +11,34 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { data: session } = useSession();
   const pathname = usePathname();
+  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
 
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    async function fetchStatus() {
+      if (session) {
+        try {
+          const res = await fetch("/api/subscription/status");
+          const data = await res.json();
+          setSubscriptionStatus(data.subscription?.status || "guest");
+        } catch {
+          setSubscriptionStatus("guest");
+        }
+      } else {
+        setSubscriptionStatus("guest");
+      }
+    }
+    fetchStatus();
+  }, [session]);
+
+  function getStatusIcon(status) {
+    if (status === "pro") return <FaCrown className="text-yellow-400 ml-2" title="Pro" />;
+    if (status === "trial") return <FaClock className="text-blue-400 ml-2" title="Trial" />;
+    return <FaUser className="text-gray-400 ml-2" title="Guest" />;
+  }
 
   return (
     <nav className="p-4 bg-black text-white fixed top-0 w-full shadow-md z-10 px-8">
@@ -48,6 +72,7 @@ const Navbar = () => {
                 <Image src={session.user.image} width={32} height={32} alt="avatar" className="rounded-full" />
               )}
               <span className="font-semibold">{session.user?.name || session.user?.email}</span>
+              {getStatusIcon(subscriptionStatus)}
               <button onClick={() => signOut()} className="ml-2 px-3 py-1 bg-gray-800 rounded hover:bg-gray-700 text-sm">Logout</button>
             </div>
           ) : (
@@ -85,6 +110,7 @@ const Navbar = () => {
                   <Image src={session.user.image} width={32} height={32} alt="avatar" className="rounded-full" />
                 )}
                 <span className="font-semibold">{session.user?.name || session.user?.email}</span>
+                {getStatusIcon(subscriptionStatus)}
                 <button onClick={() => { setMenuOpen(false); signOut(); }} className="ml-2 px-3 py-1 bg-gray-800 rounded hover:bg-gray-700 text-sm">Logout</button>
               </div>
             ) : (

@@ -51,6 +51,11 @@ export async function POST(req) {
         await handlePaymentCaptured(event.payload.payment.entity);
         break;
       
+      case 'payment.authorized':
+        console.log('Processing payment.authorized');
+        await handlePaymentAuthorized(event.payload.payment.entity);
+        break;
+      
       default:
         console.log(`Unhandled event type: ${event.event}`);
     }
@@ -138,7 +143,7 @@ async function handlePaymentCaptured(payment) {
   console.log('Payment captured:', payment.id);
   
   // Get the subscription ID from the payment
-  const subscriptionId = payment.notes?.subscription_id;
+  const subscriptionId = payment.notes?.subscriptionId;
   
   if (!subscriptionId) {
     console.log('No subscription ID found in payment');
@@ -170,5 +175,31 @@ async function handlePaymentCaptured(payment) {
     console.log('Subscription updated to pro after payment capture:', updatedSubscription);
   } catch (error) {
     console.error('Error updating subscription after payment capture:', error);
+  }
+}
+
+async function handlePaymentAuthorized(payment) {
+  console.log('Payment authorized:', payment.id);
+
+  const subscriptionId = payment.notes?.subscriptionId;
+  const userId = payment.notes?.userId;
+
+  if (!subscriptionId || !userId) {
+    console.log('No subscriptionId or userId found in payment notes');
+    return;
+  }
+
+  try {
+    // Mark the subscription as 'trial'
+    await prisma.subscription.update({
+      where: { userId },
+      data: {
+        status: 'trial',
+        razorpaySubscriptionId: subscriptionId
+      }
+    });
+    console.log('Subscription set to trial after payment authorization');
+  } catch (error) {
+    console.error('Error handling payment authorization:', error);
   }
 } 
