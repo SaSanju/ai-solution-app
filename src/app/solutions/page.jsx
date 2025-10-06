@@ -24,20 +24,20 @@ const solutions = [
         features: ["Category-specific hashtags", "Audience targeting", "Trending tags", "Bulk copy functionality"]
     },
     {
+        id: "linkedIn-curation-assistant",
+        title: "LinkedIn Curation Assistant",
+        description: "Supercharge your LinkedIn presence with AI-curated content that drives engagement and builds authority.",
+        icon: <MdOutlineContentCopy size={70} className="text-green-600" />,
+        link: "/contact",
+        features: ["Personalized Topic Discovery", "Smart Post Suggestions", "Engagement Optimization", "One-Click Curation"]
+    },
+    {
         id: "content-automation",
         title: "Content Automation",
         description: "Streamline your content creation process with intelligent automation tools that adapt to your brand voice and style.",
-        icon: <MdOutlineContentCopy size={70} className="text-green-600" />,
-        link: "/contact",
-        features: ["Brand voice consistency", "Multi-platform publishing", "Content scheduling", "Performance analytics"]
-    },
-    {
-        id: "ai-integration",
-        title: "AI Integration Services",
-        description: "Seamlessly integrate AI solutions into your existing workflow with expert support and custom implementation.",
         icon: <MdOutlineIntegrationInstructions size={70} className="text-orange-600" />,
         link: "/contact",
-        features: ["Custom AI solutions", "API integration", "Technical support", "Training & onboarding"]
+        features: ["Brand voice consistency", "Multi-platform publishing", "Content scheduling", "Performance analytics"]
     },
 ];
 
@@ -144,7 +144,7 @@ const Solutions = () => {
                                         onClick={() => handleSolutionClick(solution.link)}
                                         className="mt-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
                                     >
-                                        {solution.id === "content-automation" || solution.id === "ai-integration" ? "Coming Soon" : "Try Now"}
+                                        {solution.id === "content-automation" || solution.id === "linkedIn-curation-assistant" ? "Coming Soon" : "Try Now"}
                                     </button>
                                 </div>
                             </>
@@ -169,7 +169,7 @@ const Solutions = () => {
                                         onClick={() => handleSolutionClick(solution.link)}
                                         className="mt-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
                                     >
-                                        {solution.id === "content-automation" || solution.id === "ai-integration" ? "Coming Soon" : "Try Now"}
+                                        {solution.id === "content-automation" || solution.id === "linkedIn-curation-assistant" ? "Coming Soon" : "Try Now"}
                                     </button>
                                 </div>
 
