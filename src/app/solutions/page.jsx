@@ -24,20 +24,20 @@ const solutions = [
         features: ["Category-specific hashtags", "Audience targeting", "Trending tags", "Bulk copy functionality"]
     },
     {
+        id: "linkedIn-curation-assistant",
+        title: "LinkedIn Curation Assistant",
+        description: "Supercharge your LinkedIn presence with AI-curated content that drives engagement and builds authority.",
+        icon: <MdOutlineContentCopy size={70} className="text-green-600" />,
+        link: "/contact",
+        features: ["Personalized Topic Discovery", "Smart Post Suggestions", "Engagement Optimization", "One-Click Curation"]
+    },
+    {
         id: "content-automation",
         title: "Content Automation",
         description: "Streamline your content creation process with intelligent automation tools that adapt to your brand voice and style.",
-        icon: <MdOutlineContentCopy size={70} className="text-green-600" />,
-        link: "/contact",
-        features: ["Brand voice consistency", "Multi-platform publishing", "Content scheduling", "Performance analytics"]
-    },
-    {
-        id: "ai-integration",
-        title: "AI Integration Services",
-        description: "Seamlessly integrate AI solutions into your existing workflow with expert support and custom implementation.",
         icon: <MdOutlineIntegrationInstructions size={70} className="text-orange-600" />,
         link: "/contact",
-        features: ["Custom AI solutions", "API integration", "Technical support", "Training & onboarding"]
+        features: ["Brand voice consistency", "Multi-platform publishing", "Content scheduling", "Performance analytics"]
     },
 ];
 

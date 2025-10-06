@@ -79,20 +79,22 @@ const SubscriptionModal = ({ isOpen, onClose, currentUsage, limit, feature, subs
             </div>
 
             {/* Usage Info */}
-            <div className="bg-gray-50 rounded-lg p-3 mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-xs text-gray-600">Today's Usage</span>
-                <span className="text-xs font-semibold text-gray-800">
-                  {currentUsage} / {limit}
-                </span>
+            {subscriptionStatus !== 'pro' && (
+              <div className="bg-gray-50 rounded-lg p-3 mb-4">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs text-gray-600">Today's Usage</span>
+                  <span className="text-xs font-semibold text-gray-800">
+                    {currentUsage} / {limit}
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-1.5">
+                  <div 
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 h-1.5 rounded-full transition-all duration-300"
+                    style={{ width: `${(currentUsage / limit) * 100}%` }}
+                  ></div>
+                </div>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-1.5">
-                <div 
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 h-1.5 rounded-full transition-all duration-300"
-                  style={{ width: `${(currentUsage / limit) * 100}%` }}
-                ></div>
-              </div>
-            </div>
+            )}
 
             {/* Pro Features */}
             <div className="mb-4">
