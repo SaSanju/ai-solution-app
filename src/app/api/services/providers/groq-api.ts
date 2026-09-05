@@ -27,7 +27,7 @@ export async function callGroq({ apiKey, model, prompt, type }: CallGroqParams):
           content: prompt
         }
       ],
-      max_tokens: type === 'caption' ? 500 : 200,
+      max_tokens: type === 'caption' ? 2048 : 2048,
       temperature: 0.8,
       stream: false,
     }),
