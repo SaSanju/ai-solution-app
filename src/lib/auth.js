@@ -1,12 +1,13 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import NextAuth from "next-auth";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-export const authOptions = {
+export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -50,5 +51,5 @@ export const authOptions = {
     signOut: "/login",
     error: "/login", // Error code passed in query string as ?error=
   },
-  secret: process.env.NEXTAUTH_SECRET,
-}; 
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+}); 
