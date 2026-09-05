@@ -34,7 +34,7 @@ AI_PROVIDER=groq
 ```bash
 # Required for Groq provider (default)
 GROQ_API_KEY=your_groq_api_key_here
-GROQ_MODEL=llama3-8b-8192  # Optional, defaults to llama3-8b-8192
+GROQ_MODEL=openai/gpt-oss-20b  # Optional, defaults to openai/gpt-oss-20b
 ```
 
 ### OpenAI Configuration
@@ -51,7 +51,7 @@ OPENAI_MODEL=gpt-3.5-turbo  # Optional, defaults to gpt-3.5-turbo
 ```bash
 AI_PROVIDER=groq
 GROQ_API_KEY=gsk-your-groq-api-key
-GROQ_MODEL=llama3-8b-8192
+GROQ_MODEL=openai/gpt-oss-20b
 ```
 
 ### Using OpenAI

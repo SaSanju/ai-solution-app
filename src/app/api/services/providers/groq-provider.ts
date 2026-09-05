@@ -9,7 +9,7 @@ export class GroqProvider extends BaseProvider {
   constructor() {
     super();
     this.apiKey = process.env.GROQ_API_KEY || '';
-    this.model = process.env.GROQ_MODEL || 'llama3-8b-8192';
+    this.model = process.env.GROQ_MODEL || 'openai/gpt-oss-20b';
     
     if (!this.apiKey) {
       throw new Error('Groq API key not configured');
