@@ -23,7 +23,8 @@ const Footer = () => {
         <div className="mt-6 md:mt-0 text-center md:text-left">
           <h3 className="text-lg font-bold text-gray-300">Pages</h3>
           <ul className="mt-2 space-y-2 text-gray-400">
-            <li><Link href="/solutions" className="hover:text-white transition">AI Solutions</Link></li>
+            <li><Link href="/solutions" className="hover:text-white transition">AI Solutions for Business</Link></li>
+            <li><Link href="/products" className="hover:text-white transition">Products & Tools</Link></li>
             <li><Link href="/community" className="hover:text-white transition">Community</Link></li>
             <li><Link href="/blogs-videos" className="hover:text-white transition">Blog & Videos</Link></li>
           </ul>

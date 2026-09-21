@@ -60,6 +60,7 @@ const Navbar = () => {
         <div className="hidden md:flex gap-8 text-lg font-semibold">
           <Link href="/" className="hover:text-blue-400 transition duration-300">Home</Link>
           <Link href="/solutions" className="hover:text-blue-400 transition duration-300">AI Solutions</Link>
+          <Link href="/products" className="hover:text-blue-400 transition duration-300">Products</Link>
           <Link href="/blogs-videos" className="hover:text-blue-400 transition duration-300">Blogs & Videos</Link>
           <Link href="/contact" className="hover:text-blue-400 transition duration-300">Contact</Link>
         </div>
@@ -99,6 +100,7 @@ const Navbar = () => {
         <div className="md:hidden bg-black text-white flex flex-col items-center py-4 space-y-4">
           <Link href="/" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>Home</Link>
           <Link href="/solutions" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>AI Solutions</Link>
+          <Link href="/products" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>Products</Link>
           <Link href="/blogs-videos" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>Blogs & Videos</Link>
           <Link href="/contact" className="text-lg hover:text-blue-400 transition duration-300" onClick={() => setMenuOpen(false)}>Contact</Link>
 
