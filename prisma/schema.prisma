@@ -46,6 +46,38 @@ model User {
   usage         Usage[]
   accounts      Account[]
   sessions      Session[]
+  tenant        Tenant?
+}
+
+model Tenant {
+  id                   String              @id @default(cuid())
+  name                 String
+  ownerUserId          String              @unique
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  owner                User                @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  whatsappIntegration  WhatsAppIntegration?
+}
+
+model WhatsAppIntegration {
+  id                       String   @id @default(cuid())
+  tenantId                 String   @unique
+  whatsappBusinessAccountId String  @unique
+  phoneNumberId            String   @unique
+  metaBusinessId           String?
+  displayPhoneNumber       String
+  verifiedName             String?
+  encryptedAccessToken     String   @db.Text
+  encryptionIv             String
+  encryptionTag            String
+  tokenExpiresAt           DateTime?
+  status                   String   @default("CONNECTED")
+  connectedAt              DateTime @default(now())
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+  tenant                   Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([status])
 }
 
 model Account {

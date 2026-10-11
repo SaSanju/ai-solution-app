@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "AI Products & Tools | Kritrim Solutions",
+  title: "AI Products & CommercePilot | Kritrim Solutions",
   description:
-    "Try Kritrim’s AI tools — caption generation, hashtag generation, and content automation — while our Solutions team builds custom AI workflows for your business.",
+    "Explore Kritrim AI tools and CommercePilot, a plug-and-play AI customer support workspace for commerce businesses.",
 };
 
 export default function ProductsLayout({
