@@ -12,6 +12,13 @@ const errorMessages = {
   default: "Something went wrong. Please try again later."
 };
 
+function safeCallbackUrl() {
+  if (typeof window === "undefined") return "/";
+  const value = new URLSearchParams(window.location.search).get("callbackUrl") || "/";
+  if (!value.startsWith("/") || value.startsWith("//")) return "/";
+  return value;
+}
+
 export default function AuthPage() {
   const [tab, setTab] = useState("login");
   // Login state
@@ -38,7 +45,7 @@ export default function AuthPage() {
     if (res.error) {
       setLoginError(errorMessages[res.error] || errorMessages.default);
     } else {
-      router.push("/");
+      router.push(safeCallbackUrl());
     }
   };
 
@@ -120,7 +127,7 @@ export default function AuthPage() {
               </div>
             </form>
             <div className="mt-4 flex flex-col gap-2">
-              <button onClick={() => signIn("google")}
+              <button onClick={() => signIn("google", { callbackUrl: safeCallbackUrl() })}
                 className="w-full flex items-center justify-center gap-2 bg-[#ea4335] hover:bg-[#c5221f] text-white px-4 py-2 rounded-lg transition-all duration-300 font-semibold shadow-sm hover:scale-105 focus:scale-105 focus:outline-none focus:ring-2 focus:ring-[#ea4335] focus:ring-offset-2 text-xs">
                 <FaGoogle />
                 Login with Google

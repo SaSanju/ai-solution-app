@@ -14,7 +14,7 @@ const products = [
     icon: <FaHeadset size={40} className="text-emerald-700" />,
     link: "/commercepilot",
     features: ["Guided business onboarding", "WhatsApp and order integrations", "Order, tracking, and cancellation workflows", "Human approvals and audit trail"],
-    cta: "Explore Prototype",
+    cta: "Open business console",
   },
   {
     id: "caption-generator",

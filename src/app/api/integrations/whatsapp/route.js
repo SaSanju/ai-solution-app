@@ -194,7 +194,7 @@ export async function POST(request) {
     const integration = await prisma.$transaction(async (transaction) => {
       const tenant = await transaction.tenant.upsert({
         where: { ownerUserId: session.user.id },
-        create: { ownerUserId: session.user.id, name: businessName },
+        create: { ownerUserId: session.user.id, name: businessName, enabledWorkflows: ["track", "place", "cancel"] },
         update: { name: businessName },
       });
 
