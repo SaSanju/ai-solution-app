@@ -1,11 +1,21 @@
 "use client";
 
-import { FaHashtag, FaQuoteLeft } from "react-icons/fa";
+import { FaHashtag, FaHeadset, FaQuoteLeft } from "react-icons/fa";
 import { MdOutlineContentCopy, MdOutlineIntegrationInstructions } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const products = [
+  {
+    id: "commercepilot-ai",
+    title: "CommercePilot AI",
+    description:
+      "A ready-to-configure AI support workspace for commerce teams. Connect your channels and order systems, choose workflows, and launch with your policies in control.",
+    icon: <FaHeadset size={40} className="text-emerald-700" />,
+    link: "/commercepilot",
+    features: ["Guided business onboarding", "WhatsApp and order integrations", "Order, tracking, and cancellation workflows", "Human approvals and audit trail"],
+    cta: "Explore Prototype",
+  },
   {
     id: "caption-generator",
     title: "AI Caption Generator",

@@ -1,11 +1,7 @@
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import PageLoader from "./components/PageLoader";
-import { LoaderProvider } from "./context/LoaderContext";
+import AppChrome from "./components/AppChrome";
 import "./globals.css"; // Import global styles
 import { ReactNode } from "react";
 import { Inter } from 'next/font/google'
-import SessionProviderWrapper from "./components/SessionProviderWrapper";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -49,14 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="twitter:image" content="https://kadvwdsvp6r2p8kv.public.blob.vercel-storage.com/whatsapp_preview-KDoRF0fYWqKkS1OqsibRaFvoKH0hyU.jpeg" />
       </head>
       <body className={inter.className}>
-        <SessionProviderWrapper>
-          <Navbar />
-          <LoaderProvider>
-            <PageLoader />
-            <div className="pt-16">{children}</div>
-          </LoaderProvider>
-          <Footer />
-        </SessionProviderWrapper>
+        <AppChrome>{children}</AppChrome>
       </body>
     </html>
   );
