@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -50,13 +51,64 @@ model User {
 }
 
 model Tenant {
-  id                   String              @id @default(cuid())
+  id                   String                 @id @default(cuid())
   name                 String
-  ownerUserId          String              @unique
-  createdAt            DateTime            @default(now())
-  updatedAt            DateTime            @updatedAt
-  owner                User                @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  ownerUserId          String                 @unique
+  industry             String?
+  website              String?
+  supportEmail         String?
+  catalogNotes         String?                @db.Text
+  timezone             String?                @default("Asia/Kolkata")
+  enabledWorkflows     String[]               @default([])
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  owner                User                   @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
   whatsappIntegration  WhatsAppIntegration?
+  commerceIntegrations CommerceIntegration[]
+  conversations        CommerceConversation[]
+  approvals            CommerceApproval[]
+}
+
+model CommerceIntegration {
+  id          String   @id @default(cuid())
+  tenantId    String
+  type        String
+  provider    String
+  status      String   @default("CONNECTED")
+  config      Json?
+  connectedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, type])
+  @@index([status])
+}
+
+model CommerceConversation {
+  id            String   @id @default(cuid())
+  tenantId      String
+  customerName  String
+  customerPhone String?
+  message       String
+  status        String   @default("OPEN")
+  channel       String   @default("whatsapp")
+  createdAt     DateTime @default(now())
+  tenant        Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, createdAt])
+}
+
+model CommerceApproval {
+  id        String   @id @default(cuid())
+  tenantId  String
+  title     String
+  detail    String
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, status])
 }
 
 model WhatsAppIntegration {
